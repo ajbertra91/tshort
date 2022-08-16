@@ -1,12 +1,12 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { ChangeEvent, FormEvent, useState } from 'react'
-import styles from '../styles/Home.module.css'
-import { trpc } from '../utils/trpc'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import styles from '../styles/Home.module.css';
+import { trpc } from '../utils/trpc';
+import { RiFileCopyLine } from "react-icons/ri";
 
 const Home: NextPage = () => {
   const [url, setUrl] = useState("");
-  const [slug, setSlug] = useState("");
   const mutation = trpc.useMutation(['set-slug']);
   const [shortUrl, setShortUrl] = useState("");
 
@@ -24,17 +24,13 @@ const Home: NextPage = () => {
   const handleUrlChange = (url: string) => {
     const hasHttp = /http\:\/\//g.test(url);
     const hasHttps = /https\:\/\//g.test(url);
-    console.log('hasHttp?', hasHttp)
-    console.log('hasHttps?', hasHttps)
     setUrl((hasHttp || hasHttps) ? url : `https://${url}`);
   }
 
   const handleClick = (e: FormEvent) => {
     e.preventDefault();
     if (url.length > 0) {
-      console.log(url);
       const slug = generateSlug(8);
-      console.log(slug);
       mutation.mutate({ slug, url });
       const tshort = `http://localhost:3000/api/${slug}`
       setShortUrl(tshort);
@@ -87,6 +83,7 @@ const Home: NextPage = () => {
               onClick={() => copyUrl()}
             >
               {shortUrl}
+              <RiFileCopyLine />
             </div> : null
           }
         </div>

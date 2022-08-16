@@ -78,6 +78,15 @@
   border: 1px solid #999;
   border-radius: 5px;
   font-size: 2rem;
+  max-width: 240px;
+}
+@media screen and (min-width: 600px) {
+  .input {
+    max-width: 100%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-width: 0;
+  }
 }
 
 .card {
@@ -98,6 +107,14 @@
   font-size: 2rem;
   color: white;
   background-color: #0070f3;
+}
+
+@media screen and (min-width: 600px) {
+  .button {
+    max-width: 100%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 .button:hover {
