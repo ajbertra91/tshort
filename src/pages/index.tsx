@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { trpc } from '../utils/trpc'
 
@@ -8,11 +8,16 @@ const Home: NextPage = () => {
   const [url, setUrl] = useState("");
   const [slug, setSlug] = useState("");
   const mutation = trpc.useMutation(['set-slug']);
+  const [shortUrl, setShortUrl] = useState("");
 
-  const generateSlug = (): string => {
-    // TODO generate a complex slug
-    const slugs = ['rock', 'paper', 'scissors', 'tin', 'paper', 'stone'];
-    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+  const generateSlug = (length: number): string => {
+    var slug = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      slug += characters.charAt(Math.floor(Math.random() *
+        charactersLength));
+    }
     return slug;
   }
 
@@ -24,14 +29,26 @@ const Home: NextPage = () => {
     setUrl((hasHttp || hasHttps) ? url : `https://${url}`);
   }
 
-  const handleClick = () => {
+  const handleClick = (e: FormEvent) => {
+    e.preventDefault();
     if (url.length > 0) {
       console.log(url);
-      const slug = generateSlug();
+      const slug = generateSlug(8);
       console.log(slug);
-      mutation.mutate({ slug, url })
+      mutation.mutate({ slug, url });
+      const tshort = `http://localhost:3000/api/${slug}`
+      setShortUrl(tshort);
     }
     return;
+  }
+
+  const copyUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(shortUrl);
+    }
+    catch (err) {
+      console.error('Async: Could not copy text: ', err);
+    };
   }
 
   return (
@@ -52,12 +69,26 @@ const Home: NextPage = () => {
         </p>
 
         <div className={styles.grid}>
-          <input
-            type="text"
-            placeholder="example.com"
-            onChange={(e: ChangeEvent) => handleUrlChange((e.target as HTMLInputElement).value)}/>
+          <div className={styles.card}>
+            <form onSubmit={(e: FormEvent) => handleClick(e)}>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder="example.com"
+                onChange={(e: ChangeEvent) => handleUrlChange((e.target as HTMLInputElement).value)}/>
 
-          <button onClick={() => handleClick()}>Shorten URL</button>
+              <button type="submit" className={styles.button}>Shorten URL</button>
+            </form>
+          </div>
+
+          {shortUrl ?
+            <div
+              className={styles.card}
+              onClick={() => copyUrl()}
+            >
+              {shortUrl}
+            </div> : null
+          }
         </div>
       </main>
 

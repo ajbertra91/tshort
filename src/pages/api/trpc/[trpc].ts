@@ -32,7 +32,7 @@ export const appRouter = trpc.router()
         throw err;
       }
       return {
-        status: `ok`,
+        slug: input?.slug
       };
     },
   });
