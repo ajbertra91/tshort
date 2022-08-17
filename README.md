@@ -12,12 +12,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 live app url: [https://tshort-ruby.vercel.app/](https://tshort-ruby.vercel.app/)
 
-DB is [https://planetscale.com](planetscale).
+DB is [planetscale](https://planetscale.com).
 
-DB client is [https://www.prisma.io/](Prisma).
+DB client is [Prisma](https://www.prisma.io/).
 
-API client is [https://trpc.io/](trpc).
+API client is [trpc](https://trpc.io/).
 
-Backend is [https://nextjs.org/](NextJs).
+Backend is [NextJs](https://nextjs.org/).
 
-UI is [https://reactjs.org/](React>).
+UI is [ReactJs](https://reactjs.org/).
