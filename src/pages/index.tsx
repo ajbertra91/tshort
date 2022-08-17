@@ -32,7 +32,8 @@ const Home: NextPage = () => {
     if (url.length > 0) {
       const slug = generateSlug(8);
       mutation.mutate({ slug, url });
-      const tshort = `http://localhost:3000/api/${slug}`
+      console.log(process.env.NODE_ENV);
+      const tshort = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/${slug}` : `https://tshort-ruby.vercel.app/api/${slug}`
       setShortUrl(tshort);
     }
     return;
